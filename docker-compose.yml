@@ -1,0 +1,32 @@
+services:
+    web:
+        image: nginx:latest
+        ports:
+            - "8080:8080"
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+            - ./app:/app
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - ./app:/app
+    db:
+        image: mariadb
+        environment:
+            MYSQL_ROOT_PASSWORD: '020707'
+            MYSQL_USER: 'resonator-admin'
+            MYSQL_PASSWORD: '020707'
+            MYSQL_DATABASE: 'resonator'
+        volumes:
+            - db_data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+    adminer:
+        image: adminer
+        ports:
+            - "8081:8080"
+
+volumes:
+    db_data: {}
