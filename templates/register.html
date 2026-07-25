@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-    Home
+    Register
 {% endblock %}
 {% block main %}
 <h1>Register</h1>
@@ -13,5 +13,8 @@
 
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required>
+
+    <button type="submit">Register</button>
 </form>
+<p>Sudah punya akun? <a href="{{ url_for('login') }}">Login di sini</a></p>
 {% endblock %}
