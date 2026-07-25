@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from functools import wraps
-from sqlalchemy import or_
 from models import db, User, Note
 
 def init_app():
