@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}
+    {% if note %}Edit Note{% else %}Create Note{% endif %}
+{% endblock %}
+{% block main %}
+<h1>{% if note %}Edit Note: {{ note.title }}{% else %}Buat Note Baru{% endif %}</h1>
+
+<form method="POST" id="note-form">
+    <div>
+        <label for="title">
+            <strong>Judul</strong>
+            <input type="text" id="title" name="title" placeholder="Masukkan judul note..."
+                   value="{{ note.title if note else '' }}" required>
+        </label>
+    </div>
+
+    <div>
+        <label for="markdown-editor">
+            <strong>Konten (Markdown)</strong>
+        </label>
+        <textarea id="markdown-editor" name="content">{{ note.content if note else '' }}</textarea>
+    </div>
+
+    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <button type="submit" role="button">{% if note %}Update Note{% else %}Create Note{% endif %}</button>
+        <a href="{{ url_for('dashboard') }}" role="button" class="outline">Batal</a>
+    </div>
+</form>
+
+<!-- EasyMDE CSS -->
+<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+
+<!-- EasyMDE JS -->
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+
+<script>
+    const easyMDE = new EasyMDE({
+        element: document.getElementById("markdown-editor"),
+        spellChecker: false,
+        autoDownloadFontAwesome: true,
+        toolbar: [
+            "bold", "italic", "strikethrough", "heading", "|",
+            "quote", "unordered-list", "ordered-list", "|",
+            "link", "image", "table", "|",
+            "preview", "side-by-side", "fullscreen", "|",
+            "guide", "undo", "redo"
+        ],
+        lineNumbers: true,
+        lineWrapping: true,
+        previewClass: "editor-preview"
+    });
+
+    document.getElementById("note-form").addEventListener("submit", function (event) {
+        if (!easyMDE.value().trim()) {
+            event.preventDefault();
+            easyMDE.codemirror.focus();
+            alert("Konten Markdown wajib diisi.");
+        }
+    });
+</script>
+
+<style>
+    .EasyMDEContainer .editor-preview {
+        background-color: #f9f9f9;
+    }
+    .CodeMirror {
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+    }
+    .editor-toolbar {
+        background-color: rgb(245 245 245 / 0.06);
+        border: 1px solid #ddd;
+        border-radius: 0.25rem 0.25rem 0 0;
+    }
+</style>
+{% endblock %}
+
