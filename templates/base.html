@@ -11,10 +11,16 @@
     <header>
         <nav class="container">
             <ul>
-                <li>Home</li>
-                <li>About</li>
-                <li>Login</li>
-                <li>Register</li>
+                <li><strong>Resonator</strong></li>
+            </ul>
+            <ul>
+                {% if session.get('user_id') %}
+                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
