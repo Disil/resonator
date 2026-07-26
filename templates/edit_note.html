@@ -6,7 +6,7 @@
 <h1>{% if note %}Edit Note: {{ note.title }}{% else %}Buat Note Baru{% endif %}</h1>
 
 <form method="POST" id="note-form">
-    <div>
+    <div class="pico">
         <label for="title">
             <strong>Judul</strong>
             <input type="text" id="title" name="title" placeholder="Masukkan judul note..."
@@ -21,9 +21,11 @@
         <textarea id="markdown-editor" name="content">{{ note.content if note else '' }}</textarea>
     </div>
 
-    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-        <button type="submit" role="button">{% if note %}Update Note{% else %}Create Note{% endif %}</button>
-        <a href="{{ url_for('dashboard') }}" role="button" class="outline">Batal</a>
+    <div class="pico">
+        <fieldset role="group">
+            <button type="submit" role="button">{% if note %}Update Note{% else %}Create Note{% endif %}</button>
+            <a href="{{ url_for('dashboard') }}" role="button" class="outline">Batal</a>
+        </fieldset>
     </div>
 </form>
 

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.green.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pico.conditional.green.css') }}">
     <title>Resonator - {% block title %}{% endblock %}</title>
 </head>
 <body>
-    <header>
+    <header class="pico">
         <nav class="container">
             <ul>
                 <li><strong><a href="{{ url_for('index') }}"><h1>Resonator</h1></a></strong></li>
@@ -27,8 +27,12 @@
     <main class="container">
         {% block main %}{% endblock %}
     </main>
-    <footer>
-        {% block footer %}{% endblock %}
+    <footer class="pico">
+        <nav class="container">
+            <ul>
+                <li>&copy; 2026 Satria N. All rights reserved.</li>
+            </ul>
+        </nav>
     </footer>
 </body>
 </html>

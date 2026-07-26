@@ -3,32 +3,32 @@
     Dashboard
 {% endblock %}
 {% block main %}
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+<div class="pico" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
     <div>
-        <h1>Dashboard</h1>
+        <h2>Dashboard</h2>
         <p>Selamat Datang, <strong>{{ user.username }}</strong>! Kelola notes Anda di sini.</p>
     </div>
     <a href="{{ url_for('create_note') }}" role="button">+ Buat Note Baru</a>
 </div>
 
-<form method="GET" action="{{ url_for('dashboard') }}" style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; align-items: center;">
-    <label for="note-search" style="position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden;">Cari note</label>
-    <input
-        id="note-search"
-        type="search"
-        name="q"
-        placeholder="Cari Catatan..."
-        value="{{ query or '' }}"
-        style="margin-bottom: 0; flex: 1;"
-    >
-    <button type="submit">Cari</button>
-    {% if query %}
-        <a href="{{ url_for('dashboard') }}" role="button" class="outline">Reset</a>
-    {% endif %}
+<form class="pico" method="GET" action="{{ url_for('dashboard') }}">
+    <fieldset role="group">
+        <input
+            id="note-search"
+            type="search"
+            name="q"
+            placeholder="Cari Catatan..."
+            value="{{ query or '' }}"
+        >
+        <button type="submit">Cari</button>
+        {% if query %}
+            <a href="{{ url_for('dashboard') }}" role="button" class="outline">Reset</a>
+        {% endif %}
+    </fieldset>
 </form>
 
 {% if notes %}
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
+    <div class="pico" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
         {% for note in notes %}
             <article style="padding: 1rem; border: 1px solid #ddd; border-radius: 0.5rem;">
                 <h3 style="margin-top: 0;">{{ note.title }}</h3>
