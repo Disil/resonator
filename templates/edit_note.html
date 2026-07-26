@@ -47,7 +47,6 @@
     const easyMDE = new EasyMDE({
         element: document.getElementById("markdown-editor"),
         spellChecker: false,
-        autoDownloadFontAwesome: true,
         toolbar: [
             "bold", "italic", "strikethrough", "heading", "|",
             "quote", "unordered-list", "ordered-list", "|",
@@ -55,7 +54,7 @@
             "preview", "side-by-side", "fullscreen", "|",
             "guide", "undo", "redo"
         ],
-        lineNumbers: true,
+        lineNumbers: false,
         lineWrapping: true,
         previewClass: "editor-preview"
     });

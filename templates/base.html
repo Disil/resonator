@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="{{ url_for('static', filename='favicon-32x32.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='pico.conditional.green.css') }}">
     <title>Resonator - {% block title %}{% endblock %}</title>
 </head>
@@ -27,12 +28,8 @@
     <main class="container">
         {% block main %}{% endblock %}
     </main>
-    <footer class="pico">
-        <nav class="container">
-            <ul>
-                <li>&copy; 2026 Satria N. All rights reserved.</li>
-            </ul>
-        </nav>
+    <footer class="pico container">
+        <p>By Disil. Visit my <a href="https://github.com/Disil" target="_blank">Github</a></p>
     </footer>
 </body>
 </html>
