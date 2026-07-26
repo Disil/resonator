@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session
 from functools import wraps
 from models import db, User, Note
 from sqlalchemy import or_
@@ -74,8 +74,20 @@ def logout():
 @login_required
 def dashboard():
     user = User.query.get(session['user_id'])
-    notes = Note.query.filter_by(user_id=user.id).all()
-    return render_template('dashboard.html', user=user, notes=notes)
+    query = request.args.get('q', '').strip()
+
+    notes_query = Note.query.filter_by(user_id=user.id)
+    if query:
+        search_term = f'%{query}%'
+        notes_query = notes_query.filter(
+            or_(
+                Note.title.ilike(search_term),
+                Note.content.ilike(search_term)
+            )
+        )
+
+    notes = notes_query.order_by(Note.updated_at.desc()).all()
+    return render_template('dashboard.html', user=user, notes=notes, query=query)
 
 # Create note
 @app.route('/note/create', methods=['GET', 'POST'])
