@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from functools import wraps
-from models import db, User, Note
+import re
+from models import db, User, Note, Tag
 from sqlalchemy import or_
 
 def init_app():
@@ -24,6 +25,33 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
+
+
+def parse_tags(raw_tags):
+    if not raw_tags:
+        return []
+
+    tags = []
+    seen = set()
+    for part in re.split(r'[,\n]', raw_tags):
+        tag = part.strip().lstrip('#').lower()
+        if tag and tag not in seen:
+            seen.add(tag)
+            tags.append(tag)
+
+    return tags
+
+
+def sync_note_tags(note, raw_tags):
+    tag_names = parse_tags(raw_tags)
+    note.tags = []
+
+    for tag_name in tag_names:
+        tag = Tag.query.filter_by(name=tag_name).first()
+        if not tag:
+            tag = Tag(name=tag_name)
+            db.session.add(tag)
+        note.tags.append(tag)
 
 @app.route('/')
 def index():
@@ -75,6 +103,7 @@ def logout():
 def dashboard():
     user = User.query.get(session['user_id'])
     query = request.args.get('q', '').strip()
+    selected_tag = request.args.get('tag', '').strip().lower()
 
     notes_query = Note.query.filter_by(user_id=user.id)
     if query:
@@ -86,8 +115,11 @@ def dashboard():
             )
         )
 
-    notes = notes_query.order_by(Note.updated_at.desc()).all()
-    return render_template('dashboard.html', user=user, notes=notes, query=query)
+    if selected_tag:
+        notes_query = notes_query.join(Note.tags).filter(Tag.name == selected_tag)
+
+    notes = notes_query.distinct().order_by(Note.updated_at.desc()).all()
+    return render_template('dashboard.html', user=user, notes=notes, query=query, selected_tag=selected_tag)
 
 # Create note
 @app.route('/note/create', methods=['GET', 'POST'])
@@ -96,17 +128,19 @@ def create_note():
     if request.method == 'POST':
         title = request.form.get('title')
         content = request.form.get('content')
+        tags = request.form.get('tags', '')
 
         if not title or not content:
             return "Title and content are required", 400
 
         new_note = Note(user_id=session['user_id'], title=title, content=content)
         db.session.add(new_note)
+        sync_note_tags(new_note, tags)
         db.session.commit()
 
         return redirect(url_for('dashboard'))
 
-    return render_template('edit_note.html', note=None)
+    return render_template('edit_note.html', note=None, tags_value='')
 
 # Edit note
 @app.route('/note/<int:note_id>/edit', methods=['GET', 'POST'])
@@ -121,14 +155,17 @@ def edit_note(note_id):
     if request.method == 'POST':
         note.title = request.form.get('title')
         note.content = request.form.get('content')
+        tags = request.form.get('tags', '')
 
         if not note.title or not note.content:
             return "Title and content are required", 400
 
+        sync_note_tags(note, tags)
         db.session.commit()
         return redirect(url_for('dashboard'))
 
-    return render_template('edit_note.html', note=note)
+    tags_value = ', '.join(tag.name for tag in note.tags)
+    return render_template('edit_note.html', note=note, tags_value=tags_value)
 
 # Delete note
 @app.route('/note/<int:note_id>/delete', methods=['POST'])
