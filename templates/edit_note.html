@@ -1,47 +1,44 @@
 {% extends "base.html" %}
 {% block title %}
-    {% if note %}Edit Catatan{% else %}Create Catatan{% endif %}
+    {% if note %}Edit Note{% else %}Create Note{% endif %}
 {% endblock %}
 {% block main %}
-<h1>{% if note %}Edit Catatan: {{ note.title }}{% else %}Buat Catatan Baru{% endif %}</h1>
+<h1>{% if note %}Edit Note: {{ note.title }}{% else %}Create New Note{% endif %}</h1>
 
 <form method="POST" id="note-form">
     <div class="pico">
         <label for="title">
-            <strong>Judul</strong>
-            <input type="text" id="title" name="title" placeholder="Masukkan judul catatan..."
+            <strong>Title</strong>
+            <input type="text" id="title" name="title" placeholder="Enter note title..."
                    value="{{ note.title if note else '' }}" required>
         </label>
     </div>
 
     <div class="pico">
         <label for="tags">
-            <strong>Tagar</strong>
-            <input type="text" id="tags" name="tags" placeholder="Pisahkan tagar dengan koma. Contoh: ide, personal, pekerjaan."
+            <strong>Tags</strong>
+            <input type="text" id="tags" name="tags" placeholder="Separate tags with commas. Example: idea, personal, work."
                    value="{{ tags_value or '' }}">
         </label>
     </div>
 
     <div>
         <label for="markdown-editor">
-            <strong>Isi Catatan</strong>
+            <strong>Content</strong>
         </label>
         <textarea id="markdown-editor" name="content">{{ note.content if note else '' }}</textarea>
     </div>
 
     <div class="pico">
         <fieldset role="group">
-            <button type="submit" role="button">{% if note %}Update Catatan{% else %}Buat Catatan{% endif %}</button>
-            <a href="{{ url_for('dashboard') }}" role="button" class="outline">Batal</a>
+            <button type="submit" role="button">{% if note %}Update Note{% else %}Create Note{% endif %}</button>
+            <a href="{{ url_for('dashboard') }}" role="button" class="outline">Cancel</a>
         </fieldset>
     </div>
 </form>
 
-<!-- EasyMDE CSS -->
-<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
-
-<!-- EasyMDE JS -->
-<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='easymde.min.css') }}">
+<script src="{{ url_for('static', filename='easymde.min.js') }}"></script>
 
 <script>
     const easyMDE = new EasyMDE({
@@ -63,7 +60,7 @@
         if (!easyMDE.value().trim()) {
             event.preventDefault();
             easyMDE.codemirror.focus();
-            alert("Konten catatan wajib diisi.");
+            alert("Content is required.");
         }
     });
 </script>
