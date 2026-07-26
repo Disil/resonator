@@ -1,29 +1,29 @@
 {% extends "base.html" %}
 {% block title %}
-    {% if note %}Edit Note{% else %}Create Note{% endif %}
+    {% if note %}Edit Catatan{% else %}Create Catatan{% endif %}
 {% endblock %}
 {% block main %}
-<h1>{% if note %}Edit Note: {{ note.title }}{% else %}Buat Note Baru{% endif %}</h1>
+<h1>{% if note %}Edit Catatan: {{ note.title }}{% else %}Buat Catatan Baru{% endif %}</h1>
 
 <form method="POST" id="note-form">
     <div class="pico">
         <label for="title">
             <strong>Judul</strong>
-            <input type="text" id="title" name="title" placeholder="Masukkan judul note..."
+            <input type="text" id="title" name="title" placeholder="Masukkan judul catatan..."
                    value="{{ note.title if note else '' }}" required>
         </label>
     </div>
 
     <div>
         <label for="markdown-editor">
-            <strong>Konten (Markdown)</strong>
+            <strong>Isi Catatan</strong>
         </label>
         <textarea id="markdown-editor" name="content">{{ note.content if note else '' }}</textarea>
     </div>
 
     <div class="pico">
         <fieldset role="group">
-            <button type="submit" role="button">{% if note %}Update Note{% else %}Create Note{% endif %}</button>
+            <button type="submit" role="button">{% if note %}Update Catatan{% else %}Buat Catatan{% endif %}</button>
             <a href="{{ url_for('dashboard') }}" role="button" class="outline">Batal</a>
         </fieldset>
     </div>
@@ -56,7 +56,7 @@
         if (!easyMDE.value().trim()) {
             event.preventDefault();
             easyMDE.codemirror.focus();
-            alert("Konten Markdown wajib diisi.");
+            alert("Konten catatan wajib diisi.");
         }
     });
 </script>
