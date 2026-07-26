@@ -28,17 +28,16 @@
 </form>
 
 {% if notes %}
-    <div class="pico" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
+    <div class="pico grid" style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 2rem;">
         {% for note in notes %}
             <article style="padding: 1rem; border: 1px solid #ddd; border-radius: 0.5rem;">
-                <h3 style="margin-top: 0;">{{ note.title }}</h3>
+                <h3>{{ note.title }}</h3>
                 <p style="color: #666; font-size: 0.9rem;">
                     Dibuat: {{ note.created_at.strftime('%d %b %Y %H:%M') }}
-                </p>
-                <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+                    <br>
                     Diubah: {{ note.updated_at.strftime('%d %b %Y %H:%M') }}
                 </p>
-                <p style="height: 80px; overflow: hidden; color: #555;">{{ note.content[:200] }}...</p>
+                <p style="height: 80px; overflow: hidden;">{{ note.content[:200] }}...</p>
                 <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
                     <form action="{{ url_for('edit_note', note_id=note.id) }}" method="GET">
                         <button type="submit" class="outline">Edit</button>
@@ -51,11 +50,11 @@
         {% endfor %}
     </div>
 {% elif query %}
-    <article style="padding: 2rem; text-align: center; border: 1px dashed #ddd; border-radius: 0.5rem;">
+    <article class="pico" style="padding: 2rem; text-align: center; border: 1px dashed #ddd; border-radius: 0.5rem;">
         <p style="color: #999;">Tidak ada catatan yang cocok dengan pencarian <strong>{{ query }}</strong>.</p>
     </article>
 {% else %}
-    <article style="padding: 2rem; text-align: center; border: 1px dashed #ddd; border-radius: 0.5rem;">
+    <article class="pico" style="padding: 2rem; text-align: center; border: 1px dashed #ddd; border-radius: 0.5rem;">
         <p style="color: #999;">Belum ada catatan. <a href="{{ url_for('create_note') }}">Buat yang pertama!</a></p>
     </article>
 {% endif %}

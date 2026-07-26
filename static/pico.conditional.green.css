@@ -2,6 +2,7 @@
 /*!
  * Pico CSS ✨ v2.1.1 (https://picocss.com)
  * Copyright 2019-2025 - Licensed under MIT
+ * Modified for Resonator 2026
  */
 /**
  * Styles
@@ -714,7 +715,8 @@ main {
     max-width: 950px;
   }
 }
-@media (min-width: 1280px) {
+/** Disabled so it is more compact **/
+/*@media (min-width: 1280px) {
   .container {
     max-width: 1200px;
   }
@@ -723,7 +725,7 @@ main {
   .container {
     max-width: 1450px;
   }
-}
+}*/
 
 /**
  * Grid

@@ -3,8 +3,8 @@
     Login
 {% endblock %}
 {% block main %}
-<h1>Login</h1>
-<form method="POST" action="{{ url_for('login') }}">
+<h1 class="pico">Login</h1>
+<form class="pico" method="POST" action="{{ url_for('login') }}">
     <label for="username">Username/Email:</label>
     <input type="text" id="username" name="username" required>
 
@@ -13,5 +13,5 @@
 
     <button type="submit">Login</button>
 </form>
-<p>Belum punya akun? <a href="{{ url_for('register') }}">Register di sini</a></p>
+<p class="pico">Belum punya akun? <a href="{{ url_for('register') }}">Register di sini!</a></p>
 {% endblock %}
