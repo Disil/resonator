@@ -13,12 +13,11 @@ A note-taking web application built with Flask and SQLAlchemy, featuring a markd
 - **ORM**: SQLAlchemy
 - **Frontend**: HTML/CSS (Pico CSS)
 - **Markdown Editor**: EasyMDE
-- **Markdown Parser**: Marked.js
 
 ## Installation
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.13
 - pip
 
 ### Setup
