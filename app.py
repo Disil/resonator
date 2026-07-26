@@ -26,11 +26,8 @@ def login_required(f):
     return decorated_function
 
 @app.route('/')
-@login_required
 def index():
-    user = User.query.get(session['user_id'])
-    notes = Note.query.filter_by(user_id=user.id).all()
-    return render_template('index.html', user=user, notes=notes)
+    return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
