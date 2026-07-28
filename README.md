@@ -23,7 +23,7 @@ A note-taking web application built with Flask and SQLAlchemy, featuring a markd
 ### Setup
 1. Clone the repository: 
    ```bash
-   git clone
+   git clone https://github.com/cs50/resonator.git
 2. Navigate to the project directory:
    ```bash
    cd resonator
@@ -45,3 +45,26 @@ A note-taking web application built with Flask and SQLAlchemy, featuring a markd
 6. Run the application:
    ```bash
    flask run
+7. Open your web browser and go to `http://localhost:5000` to access the application.
+   
+## Usage
+### Flow
+When user first visited the website, they will be greeted with a welcome page from index.html. Then they can either create an account or log into an existing account. They can then navigate to the notes page to create, view, edit, and delete notes. Users can also tag their notes and filter them by tags.
+### Structure
+This is the folder structure of the project:
+```
+resonator/
+├── templates/
+│   ├── index.html
+│   ├── login.html
+│   ├── register.html
+│   ├── notes.html
+│   ├── dashboard.html
+│   ├── edit_note.html
+│   └── base.html
+├── static/
+│   ├── easymde css and js files
+│   └── favicon.ico
+├── app.py
+├── models.py
+├── requirements.txt
